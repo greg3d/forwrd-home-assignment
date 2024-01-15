@@ -86,8 +86,12 @@ You can choose any other state management solution you prefer instead of the bui
   - You can use any solution you prefer for the chart, any chart library you know (for example, Chart.js is an open-source library that is really simple to use) or even some js-css solution. Note that there is no library currently installed in the project for that. Feel free to install any library of your choosing.
 - If you don't manage to show the data in a graphic solution as a pie chart, or you don't have enough time, the minimum requirement is to render a list of the countries we have - and render near each country a number of how many users are from this country.
 
-### General notes:
+### Bonus Round :)
+- Deploy your code to any platform you wish to be accessible from the web.
 
-- Feel free to make any changes to the existing code, changing the components implementation, changing passed props, css, and so on. Treat the code as a draft for you to continue from and play with.
-- Fixing bugs in the existing code also gives bonus points :)
+### General notes:
+- Make sure the code meets your standards and allows you to express yourself. Feel free to make any changes to the existing code, changing the components implementation, changing passed props, css, and so on
+- Using Vite is optional. Again - feel free to make any changes.
+- The suggested design and Look&Feel (mock) are also optional. You can follow it or design your own.
 - If there are any other changes or optimizations that you think are in place and it wasn't mentioned here, we would be glad for you to mention and explain 🤩
+
