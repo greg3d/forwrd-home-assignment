@@ -16,6 +16,7 @@ export const ContextProvider = ({ children }) => {
   console.log('usersData', usersData);
 
   useEffect(() => {
+
     const t = setTimeout(() => {
       setUsersData(data);
     }, 2000);
@@ -25,9 +26,10 @@ export const ContextProvider = ({ children }) => {
     };
   }, []);
 
-  const contextValue = useMemo(() => ({ usersData, setUsersData }), [usersData]);
+  const contextValue = useMemo(() => ({ usersData, setUsersData}), [usersData]);
+  const val = useMemo(() => ({ usersData, setUsersData, loading }), [usersData, loading]);
 
-  return <UsersContext.Provider value={contextValue}>{children}</UsersContext.Provider>;
+  return <UsersContext.Provider value={val}>{children}</UsersContext.Provider>;
 };
 
 // consumer
