@@ -26,32 +26,28 @@ export const getUsersByPage = async (page, limit) => {
   return actualData.slice(start, end);
 };
 
-export const editUser = async (user) => {
+export const editUserRequest = async (user) => {
   await delay(200);
   const actualData = getUsersData();
   const index = actualData.findIndex(u => u.id === user.id);
   actualData[index] = user;
   storageService.setData('users', actualData);
   return user;
-}
+};
 
-export const deleteUser = async (userId) => {
+export const deleteUserRequest = async (userId) => {
   await delay(300);
   const actualData = getUsersData();
   const index = actualData.findIndex(u => u.id === userId);
   actualData.splice(index, 1);
   storageService.setData('users', actualData);
   return userId;
-}
+};
 
-export const searchUsers = (searchText) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const actualData = getUsersData();
-      const filteredData = actualData.filter(user => {
-        return user.name.toLowerCase().includes(searchText.toLowerCase());
-      });
-      resolve(filteredData);
-    }, 1000);
+export const searchUsers = async (searchText) => {
+  await delay(1500);
+  const actualData = getUsersData();
+  return actualData.filter(user => {
+    return user.name.toLowerCase().includes(searchText.toLowerCase());
   });
 };
