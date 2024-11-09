@@ -20,6 +20,6 @@ export const store = configureStore({
     users: usersReducer,
     statistics: null
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
 

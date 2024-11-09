@@ -6,6 +6,7 @@ export const usersListener = [
     actionCreator: loadUsers,
     effect: async (action, listenerApi) => {
       const { dispatch } = listenerApi;
+      listenerApi.cancelActiveListeners();
       try {
         const users = await getAllUsers();
         dispatch(setUsers(users));

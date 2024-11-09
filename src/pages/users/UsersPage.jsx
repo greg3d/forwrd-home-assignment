@@ -7,6 +7,7 @@ function UsersPage() {
     <div className={styles.pageRoot}>
       <div className={styles.pageContentContainer}>
         <UsersList />
+
         <div className={styles.rightButtonContainer}>
           <PrimaryButton
             disabled={false}
