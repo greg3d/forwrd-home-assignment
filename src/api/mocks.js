@@ -1,7 +1,8 @@
 import data from '../data/initialUsersData.json';
 import storageService from './storageService.js';
 
-// TODO: move to IndexedDB
+// TODO: move to IndexedDB for persistence
+// TODO: simulate real Axios behavior but with interceptors with mocks
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -15,7 +16,7 @@ const getUsersData = () => {
 
 export const getAllUsers = async () => {
   await delay(1500);
-  return getUsersData();
+  return { list: getUsersData() };
 };
 
 export const getUsersByPage = async (page, limit) => {
@@ -23,7 +24,12 @@ export const getUsersByPage = async (page, limit) => {
   const actualData = getUsersData();
   const start = (page - 1) * limit;
   const end = start + limit;
-  return actualData.slice(start, end);
+  return {
+    list: actualData.slice(start, end),
+    totalItems: actualData.length,
+    totalPages: Math.ceil(actualData.length / limit),
+    page,
+  };
 };
 
 export const editUserRequest = async (user) => {

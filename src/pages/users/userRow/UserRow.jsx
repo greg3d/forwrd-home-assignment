@@ -12,16 +12,16 @@ const UserRow = ({ userId }) => {
 
   return (
     <Grid container className={styles.userRow}>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} sm={6} md={3}>
         {user.name}
       </Grid>
-      <Grid item xs={12} md={2}>
+      <Grid item xs={12} sm={6} md={2}>
         {user.country}
       </Grid>
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12} sm={6} md={5}>
         {user.email}
       </Grid>
-      <Grid item xs={12} md={2}>
+      <Grid item xs={12} sm={6} md={2}>
         {user.phone}
       </Grid>
       {/* Render each user row inputs and trash icon at the end of each row */}

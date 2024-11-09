@@ -1,5 +1,7 @@
 import { loadUsers, setError, setUsers } from './users.actions.js';
-import { getAllUsers } from '../../api/mocks.js';
+import { getAllUsers, getUsersByPage } from '../../api/mocks.js';
+
+const ITEMS_PER_PAGE = 9;
 
 export const usersListener = [
   {
@@ -7,8 +9,13 @@ export const usersListener = [
     effect: async (action, listenerApi) => {
       const { dispatch } = listenerApi;
       listenerApi.cancelActiveListeners();
+      let users = [];
       try {
-        const users = await getAllUsers();
+        if (action.payload) {
+          users = await getUsersByPage(action.payload, ITEMS_PER_PAGE);
+        } else {
+          users = await getAllUsers();
+        }
         dispatch(setUsers(users));
       } catch (error) {
         dispatch(setError(error));

@@ -7,6 +7,9 @@ const initialState = {
   searchPrompt: '',
   error: null,
   userToEdit: null,
+  page: 1,
+  totalPages: 0,
+  totalItems: 0
 };
 
 const usersReducer = createReducer(initialState, (builder) => {
@@ -16,7 +19,10 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.userToEdit = null;
     })
     .addCase(setUsers, (state, action) => {
-      state.users = action.payload;
+      state.users = action.payload.list;
+      state.page = action.payload.page
+      state.totalItems = action.payload.totalItems;
+      state.totalPages = action.payload.totalPages;
       state.isLoading = false;
       state.userToEdit = null;
     })

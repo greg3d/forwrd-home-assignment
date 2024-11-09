@@ -1,16 +1,15 @@
-import { Typography } from '@mui/material';
+import { CircularProgress, LinearProgress, Typography } from '@mui/material';
 import AddButton from '../../../components/AddButton';
 import styles from '../users.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { loadUsers } from '../../../stores/users/users.actions.js';
+import { useSelector } from 'react-redux';
 import UserRow from '../userRow/UserRow.jsx';
 
 function UsersList() {
 
-  const { users: usersData, isLoading } = useSelector((state) => state.users);
+  const { users: usersData, totalItems, isLoading } = useSelector((state) => state.users);
 
   const renderUsersList = () => {
+    if (isLoading) return null;
     if (!usersData || usersData.length === 0) return <div>User data not available</div>;
     return usersData.map(item => (
       <UserRow userId={item.id} key={item.id} />
@@ -19,13 +18,14 @@ function UsersList() {
 
   const renderLoader = () => {
     if (!isLoading) return null;
-    return <div className={styles.loader}>FETCHING DATA</div>;
+    return <div className={styles.loader}><LinearProgress color="secondary" /></div>;
   };
 
   return (
     <div className={styles.usersList}>
       <div className={styles.usersListHeader}>
-        <Typography variant="h6">Users List</Typography>
+        <Typography variant="h5">Users List | total: {isLoading ?
+          <CircularProgress color={'secondary'} size={'20px'} /> : totalItems}</Typography>
         <AddButton />
       </div>
       <div className={styles.usersListContent}>
