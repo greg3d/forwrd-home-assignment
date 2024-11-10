@@ -23,11 +23,4 @@ const PrimaryButton = ({ children, disabled, handleClick }) => {
   );
 };
 
-// TODO: Implement passed props
-PrimaryButton.defaultProps = {
-  children: null,
-  disabled: false,
-  handleClick: () => {},
-};
-
 export default PrimaryButton;

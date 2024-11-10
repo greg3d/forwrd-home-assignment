@@ -18,7 +18,7 @@ function UsersList() {
 
   const renderLoader = () => {
     if (!isLoading) return null;
-    return <div className={styles.loader}><LinearProgress color="secondary" /></div>;
+    return <div className={styles.loader}><CircularProgress /></div>;
   };
 
   return (

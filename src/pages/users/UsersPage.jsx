@@ -8,11 +8,11 @@ import { useEffect } from 'react';
 
 function UsersPage() {
 
-  const {pageNumber} = useParams();
+  const { pageNumber } = useParams();
   const currentPage = parseInt(pageNumber) || 1;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {totalPages} = useSelector((state) => state.users);
+  const { totalPages, emptyFields, invalidFields } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(loadUsers(currentPage));
@@ -20,7 +20,7 @@ function UsersPage() {
 
   const handlePageChange = (page) => {
     navigate(`/users/${page}`);
-  }
+  };
 
   return (
     <div className={styles.pageRoot}>
@@ -29,12 +29,20 @@ function UsersPage() {
         <div>
           page: {currentPage} out of {totalPages}
         </div>
+        <div>
+          <PrimaryButton disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>
+            Previous
+          </PrimaryButton>
+          <PrimaryButton disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>
+            Next
+          </PrimaryButton>
+        </div>
+        <div>
+          total empty fields: {emptyFields} | total invalid fields: {invalidFields}
+        </div>
 
         <div className={styles.rightButtonContainer}>
-          <PrimaryButton
-            disabled={false}
-            // TODO: Implement onClick handler
-          >
+          <PrimaryButton disabled={false}>
             Save
           </PrimaryButton>
         </div>

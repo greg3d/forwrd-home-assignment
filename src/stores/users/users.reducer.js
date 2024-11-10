@@ -1,30 +1,34 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { editUser, loadUsers, saveUser, setError, setSearchPrompt, setUsers } from './users.actions.js';
+import { loadUsers, setError, setSearchPrompt, setUsers, updateUser } from './users.actions.js';
 
 const initialState = {
   users: [],
   isLoading: false,
   searchPrompt: '',
   error: null,
-  userToEdit: null,
   page: 1,
-  totalPages: 0,
-  totalItems: 0
+  totalPages: 1,
+  totalItems: 0,
+
+  validationErrors: {},
+  emptyFields: 0,
+  invalidFields: 0,
+
 };
 
 const usersReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loadUsers, state => {
       state.isLoading = true;
-      state.userToEdit = null;
+      state.emptyFields = 0;
+      state.errorFields = 0;
     })
     .addCase(setUsers, (state, action) => {
       state.users = action.payload.list;
-      state.page = action.payload.page
+      state.page = action.payload.page;
       state.totalItems = action.payload.totalItems;
       state.totalPages = action.payload.totalPages;
       state.isLoading = false;
-      state.userToEdit = null;
     })
     .addCase(setSearchPrompt, (state, action) => {
       state.searchPrompt = action.payload;
@@ -33,14 +37,7 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
       state.isLoading = false;
     })
-    .addCase(editUser, (state, action) => {
-      const id = action.payload;
-      const user = state.users.find(user => user.id === id);
-      if (user) {
-        state.userToEdit = user;
-      }
-    })
-    .addCase(saveUser, (state, action) => {
+    .addCase(updateUser, (state, action) => {
       const user = action.payload;
       const index = state.users.findIndex(u => u.id === user.id);
       if (index !== -1) {
@@ -49,8 +46,8 @@ const usersReducer = createReducer(initialState, (builder) => {
       } else {
         state.users.push(user);
       }
-      state.userToEdit = null;
     });
+
 });
 
 export default usersReducer;
