@@ -26,6 +26,19 @@ class Validator {
     };
     return { type: 'valid', message: 'Field ' + fieldName + ' is valid' };
   }
+
+  validateAllBoolean(obj) {
+    let isValid = true;
+    this._rules.forEach((fun, key) => {
+      if (obj[key] === undefined || obj[key] === null || !obj[key].trim()) {
+        isValid = false;
+      }
+      if (fun(obj[key]) === false) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
 }
 
 // adding validation rules

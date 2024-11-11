@@ -9,8 +9,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" exact element={<StatisticsPage />} />
-        <Route path="/users" element={<Navigate to="/users/1" replace />} />
-        <Route path="/users/:pageNumber" element={<UsersPage />} />
+        <Route path="users" element={<Navigate to="1" replace />} />
+        <Route path="users/:pageNumber" element={<UsersPage />} />
       </Routes>
     </BrowserRouter>
   );
