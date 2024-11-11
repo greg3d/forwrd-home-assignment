@@ -11,6 +11,7 @@ import {
   setUsers,
   updateUser,
 } from './users.actions.js';
+import { v1 as generate_uuid_v1 } from 'uuid';
 
 const initialState = {
   data: [],
@@ -40,6 +41,43 @@ const usersReducer = createReducer(initialState, (builder) => {
     state.visible = state.data.slice((state.page - 1) * state.itemsPerPage, state.page * state.itemsPerPage);
   };
 
+  const addToSaveList = (state, user) => {
+    const createIndex = state.usersToCreate.findIndex(u => u.id === user.id);
+
+    if (createIndex !== -1) {
+      addToCreateList(state, user);
+      return;
+    }
+    const index = state.usersToSave.findIndex(u => u.id === user.id);
+    if (index !== -1) {
+      state.usersToSave[index] = user;
+    } else {
+      state.usersToSave.push(user);
+    }
+  };
+
+  const addToCreateList = (state, user) => {
+    const index = state.usersToCreate.findIndex(u => u.id === user.id);
+    if (index !== -1) {
+      state.usersToCreate[index] = user;
+    } else {
+      state.usersToCreate.push(user);
+    }
+  };
+
+  const addToDeleteList = (state, user) => {
+    if (!user.new) {
+      // removing from saveList/createList and adding to deleteList
+      const index = state.usersToCreate.findIndex(u => u.id === user.id);
+      if (index !== -1) {
+        state.usersToCreate = state.usersToCreate.filter(u => u.id !== user.id);
+      } else {
+        state.usersToSave = state.usersToSave.filter(u => u.id !== user.id);
+        state.usersToDelete.push(user);
+      }
+    }
+  };
+
   builder
     .addCase(loadUsers, state => {
       state.isLoading = true;
@@ -66,51 +104,45 @@ const usersReducer = createReducer(initialState, (builder) => {
     .addCase(setEditable, (state, action) => {
       const { id, value } = action.payload;
       const index = state.data.findIndex(u => u.id === id);
-      if (index >= 0) state.data[index].editable = value;
+      if (index !== -1) state.data[index].editable = value;
     })
     .addCase(createUser, (state, action) => {
-      // if we create new one
       const user = {
-        id: state.nextId++,
+        id: generate_uuid_v1(),
         name: '',
         email: '',
         phone: '',
-        editable: true,
-        new: true,
         country: '',
+        // service fields
+        new: true,
+        editable: true,
       };
       state.data.unshift(user);
       updatePaginationState(state);
     })
     .addCase(updateUser, (state, action) => {
       const user = action.payload;
-      const indexData = state.data.findIndex(u => u.id === user.id);
-
-      if (indexData >= 0) {
-        state.data[indexData] = user;
-        const index = state.usersToSave.findIndex(u => u.id === user.id);
-        if (index >= 0) {
-          state.usersToSave[index] = user;
+      delete user.editable;
+      const index = state.data.findIndex(u => u.id === user.id);
+      if (index !== -1) {
+        if (user.new) {
+          delete user.new;
+          addToCreateList(state, user);
         } else {
-          state.usersToSave.push(user);
+          addToSaveList(state, user);
         }
+        state.data[index] = user;
         updatePaginationState(state);
       }
     })
     .addCase(deleteUser, (state, action) => {
       const id = action.payload;
-      const indexData = state.data.findIndex(u => u.id === id);
-      // optimistic delete
-      if (indexData >= 0) {
-        const user = state.data[indexData];
-        state.data.splice(indexData, 1);
-        // adding user to delete list
-        if (state.usersToSave.includes(user)) {
-          state.usersToSave.splice(state.usersToSave.indexOf(user), 1);
-        }
-        if (!user.new) {
-          state.usersToDelete.push(user);
-        }
+      const index = state.data.findIndex(u => u.id === id);
+
+      if (index !== -1) {
+        const user = state.data[index];
+        state.data = state.data.filter(u => u.id !== id);
+        addToDeleteList(state, user);
       }
       updatePaginationState(state);
     })

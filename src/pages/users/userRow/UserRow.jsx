@@ -6,32 +6,27 @@ import TrashIconButton, {
   ReturnIconButton,
   SaveIconButton,
 } from '../../../components/TrashIconButton.jsx';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import UserNameField from './UserFields/UserNameField.jsx';
 import { deleteUser, setEditable, updateUser } from '../../../stores/users/users.actions.js';
 import UserPhoneField from './UserFields/UserPhoneField.jsx';
 import UserEmailField from './UserFields/UserEmailField.jsx';
 import validator from '../../../tools/Validator.js';
-import UserCoutryField from './UserFields/UserCoutryField.jsx';
+import UserCountryField from './UserFields/UserCoutryField.jsx';
 import { resetValidationErrors, setValidationError } from '../../../stores/validation/validation.actions.js';
 
-const UserRow = memo(({ userId }) => {
+const UserRow = ({ userId }) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.data.find((u) => u.id === userId));
   const editable = !!user.editable;
   const errors = useSelector((state) => state.validation.errors[userId]);
   const [editableUser, setEditableUser] = useState({ ...user });
-  //const [editable, setEditable] = useState(false);
-
-  useEffect(() => {
-    setEditableUser({ ...user });
-  }, []);
 
   const saveDisabled = useMemo(() => {
     if (!errors) return false;
     return Object.values(errors).some((error) => error === 'invalid' || error === 'empty');
-  }, [errors, editableUser]);
+  }, [errors]);
 
   const setUserField = (name, value) => {
     const error = validator.validate(name, value).type;
@@ -39,12 +34,11 @@ const UserRow = memo(({ userId }) => {
     setEditableUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const setEditableHandler = (value) => {
-    dispatch(resetValidationErrors(user.id));
-    dispatch(setEditable({ id: userId, value }));
-  };
-
   const renderActionButtons = useCallback(() => {
+    const setEditableHandler = (value) => {
+      dispatch(setEditable({ id: userId, value }));
+      dispatch(resetValidationErrors(user.id));
+    };
 
     const clickEditButtonHandler = () => {
       setEditableUser({ ...user });
@@ -57,7 +51,7 @@ const UserRow = memo(({ userId }) => {
 
     const clickReturnButtonHandler = () => {
       if (editableUser.new) {
-        dispatch(deleteUser(user.id));
+        dispatch(deleteUser(userId));
       } else {
         setEditableUser({ ...user });
         setEditableHandler(false);
@@ -65,28 +59,8 @@ const UserRow = memo(({ userId }) => {
     };
 
     const clickSaveButtonHandler = () => {
-
-      let isValid = true;
-      Object.keys(editableUser).forEach((key) => {
-        if (key !== 'id' && key !== 'new' && key !== 'editable') {
-          const error = validator.validate(key, editableUser[key]).type;
-          if (error === 'empty' || error === 'invalid') {
-            isValid = false;
-          }
-        }
-      });
-      if (!isValid) return;
-
-      if (editableUser.new) {
-        const notNew = { ...editableUser };
-        delete notNew.new;
-        delete notNew.editable;
-        console.log(notNew);
-        dispatch(updateUser(notNew));
-      } else {
-        dispatch(updateUser(editableUser));
-      }
-
+      if (!validator.validateAllBoolean(editableUser)) return;
+      dispatch(updateUser(editableUser));
       setEditableHandler(false);
     };
 
@@ -105,7 +79,7 @@ const UserRow = memo(({ userId }) => {
         </ButtonGroup>
       );
     }
-  }, [editable, editableUser, saveDisabled]);
+  }, [editable, editableUser, saveDisabled, user, userId]);
 
   return (
     <Grid container className={styles.userRow}>
@@ -114,9 +88,9 @@ const UserRow = memo(({ userId }) => {
         {user.name}
       </UserNameField>
 
-      <UserCoutryField id={userId} editable={editable} value={editableUser.country} onChangeHandler={setUserField}>
+      <UserCountryField id={userId} editable={editable} value={editableUser.country} onChangeHandler={setUserField}>
         {user.country}
-      </UserCoutryField>
+      </UserCountryField>
 
       <UserEmailField id={userId} editable={editable} value={editableUser.email} onChangeHandler={setUserField}>
         {user.email}
@@ -133,6 +107,6 @@ const UserRow = memo(({ userId }) => {
       </Grid>
     </Grid>
   );
-});
+};
 
 export default UserRow;
