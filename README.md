@@ -11,7 +11,7 @@ To run the project locally: clone -> npm i -> npm start
 
 ## Description
 
-You are tasked with building a react app that receives a long list of users.
+You are tasked with building a react app that receives a long visible of users.
 Each user has the following fields: Name, Country, Email and Phone.
 In addition, the app has two different pages.
 
@@ -32,8 +32,8 @@ You can choose any other state management solution you prefer instead of the bui
 
 ### Users Page
 
-- render a list of inputs in the dedicated container
-  each list item includes all the fields of the user (except id) organized in one row
+- render a visible of inputs in the dedicated container
+  each visible item includes all the fields of the user (except id) organized in one row
   see the mock below (most of it is already implemented):
   ![enter image description here](https://i2.paste.pics/331ce901a70bc7b64c4cab202d336cd1.png)
   you have some components already in the code, you can utilize them or implement your own.
@@ -43,7 +43,7 @@ You can choose any other state management solution you prefer instead of the bui
 - Support add a new user functionality - onClick on the plus button on the top
   a click on the plus button should render a new row above the existing rows (newly added row would be first),
   it's field values would be empty (a placeholder of the input name should be shown inside each input when empty)
-- Render how many users in total are currently on the list (how many rows) - show number in parentesis near the Users List title
+- Render how many users in total are currently on the visible (how many rows) - show number in parentesis near the Users List title
 
 - **Validation and Error management:**
 
@@ -74,17 +74,17 @@ You can choose any other state management solution you prefer instead of the bui
   - Pay attention when you implement row deletion, take care also of it's errors if it had any.
 
 - **Extra:**
-  - After scrolling a very long way down there are a lot of elements that are already rendered and the performance can get poor. Implement a solution to deal with rendering and scrolling when you have a large list of heavy rows.
+  - After scrolling a very long way down there are a lot of elements that are already rendered and the performance can get poor. Implement a solution to deal with rendering and scrolling when you have a large visible of heavy rows.
   - Persist users data - after refresh the changes that were made don't get lost
   - Make the country field to be rendered as an autocomplete/select from the provided options (with a dropdown of choices) others remain input type text.
   - Implement the loading state and some ui while users data is loading.
-  - Search - add a search input on the top of the users list, on change of the search string, it will filter the users and show only those that have the search string included in one of user's fields.
+  - Search - add a search input on the top of the users visible, on change of the search string, it will filter the users and show only those that have the search string included in one of user's fields.
 
 ### Statistics Page
 
 - Render a pie chart of the countries (each piece in the pie is a country from the options that we have) - and visualize how many users are from each country. The biggest piece in the pie would be the country with the largest amount of users (the updated amount that is currently saved on our context, after the latest changes on Users List)
   - You can use any solution you prefer for the chart, any chart library you know (for example, Chart.js is an open-source library that is really simple to use) or even some js-css solution. Note that there is no library currently installed in the project for that. Feel free to install any library of your choosing.
-- If you don't manage to show the data in a graphic solution as a pie chart, or you don't have enough time, the minimum requirement is to render a list of the countries we have - and render near each country a number of how many users are from this country.
+- If you don't manage to show the data in a graphic solution as a pie chart, or you don't have enough time, the minimum requirement is to render a visible of the countries we have - and render near each country a number of how many users are from this country.
 
 ### Bonus Round :)
 - Deploy your code to any platform you wish to be accessible from the web.

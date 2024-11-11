@@ -5,8 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 const StyledAddButton = styled(Button)({
   boxShadow: 'none',
   textTransform: 'none',
-  fontSize: 16,
-  padding: '6px 10px',
+  color: '#FFF',
   backgroundColor: '#3270ae',
   '&:hover': {
     backgroundColor: '#2989e8',
@@ -15,8 +14,9 @@ const StyledAddButton = styled(Button)({
 
 const AddButton = ({ disabled, handleClick }) => {
   return (
-    <StyledAddButton variant="contained" disabled={disabled} onClick={handleClick}>
+    <StyledAddButton size={"large"} variant="contained" disabled={disabled} onClick={handleClick}>
       <AddIcon fontSize="inherit" />
+      Add new user
     </StyledAddButton>
   );
 };

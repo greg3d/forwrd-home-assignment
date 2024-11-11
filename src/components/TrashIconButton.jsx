@@ -1,45 +1,37 @@
-import { styled } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ReturnIcon from '@mui/icons-material/KeyboardReturn';
 import SaveIcon from '@mui/icons-material/Save';
 
-const StyledIconButton = styled(IconButton)({
-  color: '#8f3e3e',
-  '&:hover': {
-    color: '#d38d8d',
-  },
-});
-
 const TrashIconButton = ({ handleClick }) => {
   return (
-    <StyledIconButton aria-label="delete" size="medium">
+    <IconButton aria-label="delete" color={'error'} size="medium" onClick={handleClick}>
       <DeleteIcon fontSize="inherit" />
-    </StyledIconButton>
+    </IconButton>
   );
 };
 
 export const EditIconButton = ({ handleClick }) => {
   return (
-    <IconButton aria-label="edit" size="medium" onClick={handleClick}>
-      <EditIcon fontSize="inherit" color={"warning"} />
+    <IconButton aria-label="edit" size="medium" color={'primary'}  onClick={handleClick}>
+      <EditIcon fontSize="inherit" />
     </IconButton>
   );
 };
 
 export const ReturnIconButton = ({ handleClick }) => {
   return (
-    <IconButton aria-label="delete" size="medium" onClick={handleClick}>
-      <ReturnIcon fontSize="inherit" color={"error"} />
+    <IconButton aria-label="return" color={'primary'} size="medium" onClick={handleClick}>
+      <ReturnIcon fontSize="inherit" />
     </IconButton>
   );
 };
 
-export const SaveIconButton = ({ handleClick }) => {
+export const SaveIconButton = ({ handleClick, disabled }) => {
   return (
-    <IconButton aria-label="delete" size="medium" onClick={handleClick}>
-      <SaveIcon fontSize="inherit" color={"error"} />
+    <IconButton disabled={disabled} color={'warning'} aria-label="save" size="medium" onClick={handleClick}>
+      <SaveIcon fontSize="inherit" />
     </IconButton>
   );
 };

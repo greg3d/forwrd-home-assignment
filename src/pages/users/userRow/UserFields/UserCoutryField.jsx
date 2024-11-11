@@ -5,7 +5,7 @@ import { useCountryOptions } from '../../../../hooks/useCountryOptions.js';
 
 const UserCountryField = ({ children, editable, value, onChangeHandler, id }) => {
 
-  const errors = useSelector((state) => state.users.validationErrors[id]?.['country']);
+  const errors = useSelector((state) => state.validation.errors[id]?.['country']);
   const options = useCountryOptions();
 
   const renderField = () => (
@@ -17,7 +17,7 @@ const UserCountryField = ({ children, editable, value, onChangeHandler, id }) =>
       onChange={(e, val) => onChangeHandler('country', val)}
       renderInput={(params) => <TextField
         {...params}
-        error={errors !== undefined && errors !== 'valid'}
+        error={errors === 'empty' || errors === 'invalid'}
         variant="outlined"
         size="small"
         fullWidth />}

@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 
 const StyledButton = styled(Button)({
   fontWeight: 'bold',
+  backgroundColor: '#4286bd',
   '&:hover': {
     backgroundColor: 'white',
     borderColor: 'black',
@@ -10,7 +11,7 @@ const StyledButton = styled(Button)({
   },
 });
 
-const PrimaryButton = ({ children, disabled, handleClick }) => {
+const SecondaryButton = ({ children, disabled, handleClick }) => {
   return (
     <StyledButton color={"secondary"} variant="contained" disabled={disabled} onClick={handleClick}>
       {children}
@@ -18,4 +19,4 @@ const PrimaryButton = ({ children, disabled, handleClick }) => {
   );
 };
 
-export default PrimaryButton;
+export default SecondaryButton;

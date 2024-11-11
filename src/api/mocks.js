@@ -57,3 +57,24 @@ export const searchUsers = async (searchText) => {
     return user.name.toLowerCase().includes(searchText.toLowerCase());
   });
 };
+
+export const saveAllRequest = async (usersToSave, usersToDelete) => {
+
+  await delay(300);
+  const actualData = getUsersData();
+  usersToSave.forEach(user => {
+    const index = actualData.findIndex(u => u.id === user.id);
+    if (index === -1) {
+      const newUser = { ...user, id: Math.round(Math.random() * 10000000).toString() };
+      actualData.unshift(newUser);
+      return;
+    }
+    actualData[index] = user;
+  });
+  usersToDelete.forEach(user => {
+    const index = actualData.findIndex(u => u.id === user.id);
+    actualData.splice(index, 1);
+  });
+  storageService.setData('users', actualData);
+  return { usersToSave, usersToDelete };
+};

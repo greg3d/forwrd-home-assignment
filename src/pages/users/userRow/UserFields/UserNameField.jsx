@@ -5,14 +5,13 @@ import { Grid } from '@mui/material';
 
 const UserNameField = ({ children, editable, value, onChangeHandler, id }) => {
 
-  const errors = useSelector((state) => state.users.validationErrors[id]?.['name']);
-
+  const errors = useSelector((state) => state.validation.errors[id]?.['name']);
   return (
     <Grid item xs={12} sm={6} md={2}>
       {!editable ? children : <InputField
         name={'name'}
         value={value}
-        error={errors !== undefined && errors !== 'valid'}
+        error={errors === 'empty' || errors === 'invalid'}
         placeholder={'User name'}
         onChangeHandler={onChangeHandler} />}
     </Grid>

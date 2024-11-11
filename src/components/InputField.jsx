@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { TextField } from '@mui/material';
 
-const StyledTextField = styled(TextField)({
+export const StyledTextField = styled(TextField)({
   boxShadow: 'none',
   textTransform: 'none',
   backgroundColor: '#909196',
@@ -11,7 +11,7 @@ const StyledTextField = styled(TextField)({
 const InputField = ({ name, value, onChangeHandler, error, disabled, placeholder }) => {
 
   return (
-    <StyledTextField
+    <TextField
       name={name}
       value={value}
       onChange={(e) => onChangeHandler(e.target.name, e.target.value)}
@@ -20,6 +20,7 @@ const InputField = ({ name, value, onChangeHandler, error, disabled, placeholder
       placeholder={placeholder}
       variant="outlined"
       size="small"
+
       fullWidth
       autoComplete="off"
       inputProps={{
