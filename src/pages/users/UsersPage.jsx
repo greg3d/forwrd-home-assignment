@@ -30,7 +30,7 @@ function UsersPage() {
   };
 
   const disableSave = useMemo(() => {
-    return emptyFields > 0 || invalidFields > 0 || usersToDelete.length === 0 && usersToSave.length === 0;
+    return emptyFields > 0 || invalidFields > 0 || usersToDelete.length === 0 && usersToSave.length === 0 && usersToCreate.length === 0;
   }, [emptyFields, invalidFields, usersToDelete, usersToSave]);
 
   return (

@@ -23,9 +23,9 @@ export const usersListener = [
     actionCreator: saveAll,
     effect: async (action, listenerApi) => {
       const { dispatch } = listenerApi;
-      const { usersToSave, usersToDelete } = listenerApi.getState().users;
+      const { usersToSave, usersToDelete, usersToCreate } = listenerApi.getState().users;
       try {
-        await saveAllRequest(usersToSave, usersToDelete);
+        await saveAllRequest({ usersToSave, usersToDelete, usersToCreate });
         dispatch(loadUsers(true));
       } catch (error) {
         dispatch(setError("Unable to Save Users"));

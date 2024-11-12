@@ -1,80 +1,36 @@
 import data from '../data/initialUsersData.json';
-import storageService from './storageService.js';
-
-// TODO: move to IndexedDB for persistence
-// TODO: simulate real Axios behavior but with interceptors with mocks
+import { UserRepo } from './UserRepo.js';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getUsersData = () => {
-  if (storageService.hasKey('users')) {
-    return storageService.getData('users');
-  } else {
-    return data;
-  }
+const userRepo = new UserRepo('UserDatabase', 'Users', data);
+
+const getUsersData = async () => {
+  await userRepo.openDB();
+  return userRepo.getAllUsers();
 };
 
 export const getAllUsers = async () => {
-  await delay(1500);
-  return { list: getUsersData() };
-};
-
-export const getUsersByPage = async (page, limit) => {
-  await delay(400);
-  const actualData = getUsersData();
-  const start = (page - 1) * limit;
-  const end = start + limit;
-  return {
-    list: actualData.slice(start, end),
-    totalItems: actualData.length,
-    totalPages: Math.ceil(actualData.length / limit),
-    page,
-  };
-};
-
-export const editUserRequest = async (user) => {
-  await delay(200);
-  const actualData = getUsersData();
-  const index = actualData.findIndex(u => u.id === user.id);
-  actualData[index] = user;
-  storageService.setData('users', actualData);
-  return user;
-};
-
-export const deleteUserRequest = async (userId) => {
   await delay(300);
-  const actualData = getUsersData();
-  const index = actualData.findIndex(u => u.id === userId);
-  actualData.splice(index, 1);
-  storageService.setData('users', actualData);
-  return userId;
+  const list = await getUsersData();
+  return { list };
 };
 
 export const searchUsers = async (searchText) => {
-  await delay(1500);
-  const actualData = getUsersData();
-  return actualData.filter(user => {
-    return user.name.toLowerCase().includes(searchText.toLowerCase());
-  });
+  await delay(300);
+  await userRepo.searchUsers(searchText);
 };
 
-export const saveAllRequest = async (usersToSave, usersToDelete) => {
+export const saveAllRequest = async ({ usersToSave, usersToDelete, usersToCreate }) => {
 
-  await delay(300);
-  const actualData = getUsersData();
-  usersToSave.forEach(user => {
-    const index = actualData.findIndex(u => u.id === user.id);
-    if (index === -1) {
-      const newUser = { ...user, id: Math.round(Math.random() * 10000000).toString() };
-      actualData.unshift(newUser);
-      return;
-    }
-    actualData[index] = user;
-  });
-  usersToDelete.forEach(user => {
-    const index = actualData.findIndex(u => u.id === user.id);
-    actualData.splice(index, 1);
-  });
-  storageService.setData('users', actualData);
-  return { usersToSave, usersToDelete };
+  if (usersToDelete && usersToDelete.length > 0)
+    await userRepo.deleteUsers(usersToDelete.map(user => user.id));
+
+  if (usersToSave && usersToSave.length > 0)
+    await userRepo.updateUsers(usersToSave);
+
+  if (usersToCreate && usersToCreate.length > 0)
+    await userRepo.addUsers(usersToCreate);
+
+  return true;
 };
