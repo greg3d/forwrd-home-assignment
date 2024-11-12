@@ -35,7 +35,7 @@ function UsersList() {
       <div className={styles.usersListHeader}>
         <Typography variant="h5">Users List | total: {isLoading ?
           <CircularProgress color={'secondary'} size={'20px'} /> : data.length}</Typography>
-        <AddButton handleClick={() => dispatch(createUser())} />
+        <AddButton handleClick={addButtonClickHandler} />
       </div>
       <div className={styles.usersListContent}>
         {renderUsersList()}
