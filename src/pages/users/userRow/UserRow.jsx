@@ -6,7 +6,7 @@ import TrashIconButton, {
   ReturnIconButton,
   SaveIconButton,
 } from '../../../components/TrashIconButton.jsx';
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import UserNameField from './UserFields/UserNameField.jsx';
 import { deleteUser, setEditable, updateUser } from '../../../stores/users/users.actions.js';
 import UserPhoneField from './UserFields/UserPhoneField.jsx';
@@ -109,4 +109,4 @@ const UserRow = ({ userId }) => {
   );
 };
 
-export default UserRow;
+export default memo(UserRow);

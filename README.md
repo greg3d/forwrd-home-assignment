@@ -10,13 +10,13 @@ get stick to architecture.
 - Redux Toolkit Listeners Middleware
 - Simple custom validation
 - Autocomplete for country input
-- LocalStorage for Persisting Data
+- ~~LocalStorage for Persisting Data~~
+- Use IndexedDB instead localStorage for better performance
 - Changed Mocks
 - Pagination for better rendering performance
 - Use memorizing hooks when needed
 
 ### TODO / Improvements
-- Use IndexedDB instead localStorage for better performance
 - Use Caching Mechanism in listeners middleware
 - Search with debounce
 - Statistics with graphics...
