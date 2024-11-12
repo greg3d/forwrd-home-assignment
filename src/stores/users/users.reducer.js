@@ -83,6 +83,7 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.isLoading = true;
       state.usersToSave = [];
       state.usersToDelete = [];
+      state.usersToCreate = [];
     })
     .addCase(setUsers, (state, action) => {
       state.data = action.payload.list;

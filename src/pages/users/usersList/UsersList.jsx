@@ -4,9 +4,11 @@ import styles from '../users.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import UserRow from '../userRow/UserRow.jsx';
 import { createUser } from '../../../stores/users/users.actions.js';
+import { useNavigate } from 'react-router-dom';
 
 function UsersList() {
 
+  const navigate = useNavigate();
   const { visible: usersData, data, isLoading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
@@ -21,6 +23,11 @@ function UsersList() {
   const renderLoader = () => {
     if (!isLoading) return null;
     return <div className={styles.loader}><CircularProgress /></div>;
+  };
+
+  const addButtonClickHandler = () => {
+    navigate('/users/1');
+    dispatch(createUser());
   };
 
   return (
